@@ -4,10 +4,13 @@ pipeline{
     options {
 		buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '30', daysToKeepStr: '2'))
 	}
+	parameters {
+        choice(choices: ['master', 'B1'], description: 'select Branch..', name: 'BRANCH')
+    }
     stages{
         stage ("SCM Chkout-01"){
             steps{
-                git 'https://github.com/bikramk060/Jenkins_Scenario02'
+                git branch: '$BRANCH', url: 'https://github.com/bikramk060/Jenkins_Scenario02'
             }
         }
         stage ("Java Execution"){
@@ -16,6 +19,6 @@ pipeline{
     java Simple'''
             }
         }
-            
+           
     }
 }
