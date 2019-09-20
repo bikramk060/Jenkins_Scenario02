@@ -1,0 +1,21 @@
+pipeline{
+    agent{label 'Java'}
+	triggers { cron('H/5 * * * *')}
+    options {
+		buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '30', daysToKeepStr: '2'))
+	}
+    stages{
+        stage ("SCM Chkout-01"){
+            steps{
+                git 'https://github.com/bikramk060/Jenkins_Scenario02'
+            }
+        }
+        stage ("Java Execution"){
+            steps{
+                sh label: '', script: '''javac Sample.java
+    java Simple'''
+            }
+        }
+            
+    }
+}
